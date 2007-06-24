@@ -1,0 +1,11 @@
+--- wildmidi-0.2.2/configure.ac.orig	2004-01-28 19:25:44.000000000 +0100
++++ wildmidi-0.2.2/configure.ac	2007-06-24 18:57:46.969502832 +0200
+@@ -226,6 +226,8 @@
+ )
+ 
+ case "$arch" in
++	no)
++		;;
+ 	auto)
+ 		case "${host_cpu}" in
+ 			i?86)
