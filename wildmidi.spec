@@ -8,6 +8,7 @@ Group:		Libraries
 Source0:	http://dl.sourceforge.net/wildmidi/%{name}-%{version}.tar.gz
 # Source0-md5:	c4e30f2d68ccc8e4571511832695f191
 Patch0:		%{name}-opt.patch
+Patch1:		%{name}-alsa-no-mmap.patch
 URL:		http://wildmidi.sourceforge.net/
 BuildRequires:	alsa-lib-devel >= 1.0.1
 BuildRequires:	autoconf >= 2.52
@@ -67,6 +68,7 @@ Statyczna biblioteka WildMidi.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 %{__libtoolize}
