@@ -1,14 +1,13 @@
 Summary:	MIDI player using pat sound sets
 Summary(pl.UTF-8):	Odtwarzacz MIDI wykorzystujący zestawy dźwięków pat
 Name:		wildmidi
-Version:	0.2.2
-Release:	2
-License:	LGPL v2.1+
+Version:	0.2.3.4
+Release:	1
+License:	LGPL v3+ (library), GPL v3+ (player)
 Group:		Libraries
-Source0:	http://dl.sourceforge.net/wildmidi/%{name}-%{version}.tar.gz
-# Source0-md5:	c4e30f2d68ccc8e4571511832695f191
-Patch0:		%{name}-opt.patch
-Patch1:		%{name}-alsa-no-mmap.patch
+Source0:	http://downloads.sourceforge.net/wildmidi/%{name}-%{version}.tar.gz
+# Source0-md5:	437e3dddf15ef9fb1b76625d0727a2e6
+Patch0:		%{name}-static.patch
 URL:		http://wildmidi.sourceforge.net/
 BuildRequires:	alsa-lib-devel >= 1.0.1
 BuildRequires:	autoconf >= 2.52
@@ -44,6 +43,7 @@ dźwiękowe przy użyciu zestawów pat z GUS-a.
 %package devel
 Summary:	Header files for WildMidi library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki WildMidi
+License:	LGPL v3+
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
@@ -56,6 +56,7 @@ Pliki nagłówkowe biblioteki WildMidi.
 %package static
 Summary:	Static WildMidi library
 Summary(pl.UTF-8):	Statyczna biblioteka WildMidi
+License:	LGPL v3+
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
@@ -68,7 +69,6 @@ Statyczna biblioteka WildMidi.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
 
 %build
 %{__libtoolize}
@@ -95,15 +95,18 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README TODO
 %attr(755,root,root) %{_bindir}/wildmidi
 %attr(755,root,root) %{_libdir}/libWildMidi.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libWildMidi.so.1
+%{_mandir}/man1/wildmidi.1*
+%{_mandir}/man5/wildmidi.cfg.5*
 
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libWildMidi.so
 %{_libdir}/libWildMidi.la
 %{_includedir}/wildmidi_lib.h
+%{_mandir}/man3/WildMidi_*.3*
 
 %files static
 %defattr(644,root,root,755)
