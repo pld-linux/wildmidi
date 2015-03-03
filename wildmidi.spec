@@ -2,7 +2,7 @@ Summary:	MIDI player using pat sound sets
 Summary(pl.UTF-8):	Odtwarzacz MIDI wykorzystujący zestawy dźwięków pat
 Name:		wildmidi
 Version:	0.2.3.4
-Release:	1
+Release:	2
 License:	LGPL v3+ (library), GPL v3+ (player)
 Group:		Libraries
 Source0:	http://downloads.sourceforge.net/wildmidi/%{name}-%{version}.tar.gz
