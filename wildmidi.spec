@@ -1,20 +1,22 @@
+#
+# Conditional build:
+%bcond_without	static_libs	# static library
+%bcond_without	alsa		# ALSA support (OSS otherwise)
+#
 Summary:	MIDI player using pat sound sets
 Summary(pl.UTF-8):	Odtwarzacz MIDI wykorzystujący zestawy dźwięków pat
 Name:		wildmidi
-Version:	0.2.3.4
-Release:	2
+Version:	0.3.8
+Release:	1
 License:	LGPL v3+ (library), GPL v3+ (player)
 Group:		Libraries
 Source0:	http://downloads.sourceforge.net/wildmidi/%{name}-%{version}.tar.gz
-# Source0-md5:	437e3dddf15ef9fb1b76625d0727a2e6
-Patch0:		%{name}-static.patch
-URL:		http://wildmidi.sourceforge.net/
-BuildRequires:	alsa-lib-devel >= 1.0.1
-BuildRequires:	autoconf >= 2.52
-BuildRequires:	automake
-BuildRequires:	libtool
+# Source0-md5:	76fe5ae639d2c4288435d2e4ac577e77
+URL:		http://www.mindwerks.net/projects/wildmidi/
+%{?with_alsa:BuildRequires:	alsa-lib-devel >= 1.0.1}
+BuildRequires:	cmake >= 2.8
 # for wildmidi player
-Requires:	alsa-lib >= 1.0.1
+%{?with_alsa:Requires:	alsa-lib >= 1.0.1}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -67,24 +69,23 @@ Static WildMidi library.
 Statyczna biblioteka WildMidi.
 
 %prep
-%setup -q
-%patch0 -p1
+%setup -q -n %{name}-%{name}-%{version}
 
 %build
-%{__libtoolize}
-%{__aclocal}
-%{__autoconf}
-%{__autoheader}
-%{__automake}
-%configure \
-	--disable-werror \
-	--without-arch
+install -d build
+cd build
+%cmake .. \
+	%{?with_alsa:-DWANT_ALSA=ON} \
+	%{!?with_alsa:-DWANT_OSS=ON} \
+	%{?with_static_libs:-DWANT_STATIC=ON} \
+	-DWANT_PLAYERSTATIC=OFF
+	
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%{__make} install \
+%{__make} -C build install \
 	DESTDIR=$RPM_BUILD_ROOT
 
 %clean
@@ -95,6 +96,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
+%doc README.md
 %attr(755,root,root) %{_bindir}/wildmidi
 %attr(755,root,root) %{_libdir}/libWildMidi.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libWildMidi.so.1
@@ -104,10 +106,11 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libWildMidi.so
-%{_libdir}/libWildMidi.la
 %{_includedir}/wildmidi_lib.h
 %{_mandir}/man3/WildMidi_*.3*
 
+%if %{with static_libs}
 %files static
 %defattr(644,root,root,755)
 %{_libdir}/libWildMidi.a
+%endif
