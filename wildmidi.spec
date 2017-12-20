@@ -6,12 +6,12 @@
 Summary:	MIDI player using pat sound sets
 Summary(pl.UTF-8):	Odtwarzacz MIDI wykorzystujący zestawy dźwięków pat
 Name:		wildmidi
-Version:	0.3.9
+Version:	0.4.2
 Release:	1
 License:	LGPL v3+ (library), GPL v3+ (player)
 Group:		Libraries
 Source0:	http://downloads.sourceforge.net/wildmidi/%{name}-%{version}.tar.gz
-# Source0-md5:	243ad6d754c84c5767749058c7a919c1
+# Source0-md5:	55cf5292def592a496457038de2ed6f5
 URL:		http://www.mindwerks.net/projects/wildmidi/
 %{?with_alsa:BuildRequires:	alsa-lib-devel >= 1.0.1}
 BuildRequires:	cmake >= 2.8
@@ -99,7 +99,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc README.md
 %attr(755,root,root) %{_bindir}/wildmidi
 %attr(755,root,root) %{_libdir}/libWildMidi.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libWildMidi.so.1
+%attr(755,root,root) %ghost %{_libdir}/libWildMidi.so.2
 %{_mandir}/man1/wildmidi.1*
 %{_mandir}/man5/wildmidi.cfg.5*
 
@@ -107,6 +107,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libWildMidi.so
 %{_includedir}/wildmidi_lib.h
+%{_pkgconfigdir}/wildmidi.pc
 %{_mandir}/man3/WildMidi_*.3*
 
 %if %{with static_libs}
