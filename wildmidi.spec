@@ -1,20 +1,22 @@
 #
 # Conditional build:
 %bcond_without	static_libs	# static library
-%bcond_without	alsa		# ALSA support (OSS otherwise)
+%bcond_without	alsa		# ALSA support (OpenAL/OSS otherwise)
+%bcond_with	openal		# OpenAL support if not ALSA (OSS otherwise)
 #
 Summary:	MIDI player using pat sound sets
 Summary(pl.UTF-8):	Odtwarzacz MIDI wykorzystujący zestawy dźwięków pat
 Name:		wildmidi
-Version:	0.4.2
+Version:	0.4.3
 Release:	1
 License:	LGPL v3+ (library), GPL v3+ (player)
 Group:		Libraries
 Source0:	http://downloads.sourceforge.net/wildmidi/%{name}-%{version}.tar.gz
-# Source0-md5:	55cf5292def592a496457038de2ed6f5
+# Source0-md5:	590813a62550fe8fd713d044b87b69f3
 URL:		http://www.mindwerks.net/projects/wildmidi/
+%{?with_openal:BuildRequires:	OpenAL-devel}
 %{?with_alsa:BuildRequires:	alsa-lib-devel >= 1.0.1}
-BuildRequires:	cmake >= 2.8
+BuildRequires:	cmake >= 2.8.11
 # for wildmidi player
 %{?with_alsa:Requires:	alsa-lib >= 1.0.1}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -76,7 +78,8 @@ install -d build
 cd build
 %cmake .. \
 	%{?with_alsa:-DWANT_ALSA=ON} \
-	%{!?with_alsa:-DWANT_OSS=ON} \
+	%{!?with_openal:-DWANT_OPENAL=ON} \
+	%{!?with_alsa:%{!?with_openal:-DWANT_OSS=ON}} \
 	%{?with_static_libs:-DWANT_STATIC=ON} \
 	-DWANT_PLAYERSTATIC=OFF
 	
