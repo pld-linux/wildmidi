@@ -7,12 +7,12 @@
 Summary:	MIDI player using pat sound sets
 Summary(pl.UTF-8):	Odtwarzacz MIDI wykorzystujący zestawy dźwięków pat
 Name:		wildmidi
-Version:	0.4.4
+Version:	0.4.5
 Release:	1
 License:	LGPL v3+ (library), GPL v3+ (player)
 Group:		Libraries
 Source0:	http://downloads.sourceforge.net/wildmidi/%{name}-%{version}.tar.gz
-# Source0-md5:	ac8cd78c67872572e5d3473398e14314
+# Source0-md5:	bd2b11cbb5b53257fe2123065b21d39d
 URL:		http://www.mindwerks.net/projects/wildmidi/
 %{?with_openal:BuildRequires:	OpenAL-devel}
 %{?with_alsa:BuildRequires:	alsa-lib-devel >= 1.0.1}
@@ -71,7 +71,7 @@ Static WildMidi library.
 Statyczna biblioteka WildMidi.
 
 %prep
-%setup -q -n %{name}-%{name}-%{version}
+%setup -q
 
 %build
 install -d build
